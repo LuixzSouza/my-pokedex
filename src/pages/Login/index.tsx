@@ -3,16 +3,27 @@ import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import Logo from '../../assets/logo.png';
 import { createStyles } from './styles';
 import { useTheme } from '../../global/themes';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../routes/route'; // Importe o tipo da sua rota
+
+// Tipagem para o TypeScript reconhecer as rotas disponíveis
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
   const theme = useTheme();
   const styles = createStyles(theme);
+  const navigation = useNavigation<NavigationProp>(); // Inicialização correta
 
   const handleLogin = () => {
-    // Integração de autenticação será adicionada futuramente
+    // Simulação de autenticação
     console.log('Login action', { email, password });
+    
+    // Comando para navegar para a lista de pokémons
+    navigation.navigate('PokemonList');
   };
 
   return (
@@ -23,34 +34,35 @@ export default function LoginScreen() {
       </View>
       
       <View style={styles.boxMid}>
-      <Text style={styles.titleInput}>E-mail</Text>
-      <View style={styles.boxInput}>
-      <TextInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="seuemail@exemplo.com"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          style={styles.textInput}
-        />
+        <Text style={styles.titleInput}>E-mail</Text>
+        <View style={styles.boxInput}>
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            placeholder="seuemail@exemplo.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            style={styles.textInput}
+          />
+        </View>
+
+        <Text style={styles.titleInput}>Senha</Text>      
+        <View style={styles.boxInput}>
+          <TextInput
+            value={password}
+            onChangeText={setPassword}
+            placeholder="********"
+            secureTextEntry
+            style={styles.textInput}
+          />
+        </View>        
       </View>
-      <Text style={styles.titleInput}>Senha</Text>      
-      <View style={styles.boxInput}>
-      <TextInput
-          value={password}
-          onChangeText={setPassword}
-          placeholder="********"
-          secureTextEntry
-          style={styles.textInput}
-        />
-      </View>        
-      </View>
+
       <View style={styles.boxBottom}>
-      <TouchableOpacity style={styles.buttonEntrar} onPress={handleLogin}>
+        <TouchableOpacity style={styles.buttonEntrar} onPress={handleLogin}>
           <Text style={styles.buttonEntrarText}>Entrar</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-};
-
+}
