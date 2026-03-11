@@ -3,6 +3,9 @@ import { View, Text, Image, ScrollView } from 'react-native';
 import { createStyles } from './styles';
 import { useTheme } from '../../global/themes';
 
+
+
+
 const MOCK_POKEMON_DETAIL = {
   id: 25,
   name: 'pikachu',

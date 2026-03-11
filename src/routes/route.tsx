@@ -2,11 +2,13 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../pages/Login';
 import PokemonListScreen from '../pages/PokemonList';
+import PokemonDetailScreen from '../pages/PokemonDetail';
 
 // Exportamos o tipo para usar nos outros arquivos
 export type RootStackParamList = {
     Login: undefined;
     PokemonList: undefined;
+    PokemonDetail: {id: number};
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,6 +21,7 @@ export default function AppNavigator() {
         >
             <Stack.Screen name="Login" component={LoginScreen}/>
             <Stack.Screen name="PokemonList" component={PokemonListScreen}/>
+            <Stack.Screen name="PokemonDetail" component={PokemonDetailScreen}/>
         </Stack.Navigator>
     );
 }
