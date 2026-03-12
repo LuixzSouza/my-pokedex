@@ -1,13 +1,22 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-import AppNavigator from './src/routes/route';
+import { View, StyleSheet } from 'react-native';
+import LoginScreen from './src/pages/Login';
+import PokemonListScreen from './src/pages/PokemonList';
+import PokemonDetailScreen from './src/pages/PokemonDetail';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style="auto" />
-      <AppNavigator />
-    </NavigationContainer>
+    <View style={styles.container}>
+      <StatusBar style="dark" />
+      < LoginScreen/>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+});

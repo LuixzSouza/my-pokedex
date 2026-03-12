@@ -3,12 +3,6 @@ import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import Logo from '../../assets/logo.png';
 import { createStyles } from './styles';
 import { useTheme } from '../../global/themes';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../routes/route'; // Importe o tipo da sua rota
-
-// Tipagem para o TypeScript reconhecer as rotas disponíveis
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -16,14 +10,10 @@ export default function LoginScreen() {
   
   const theme = useTheme();
   const styles = createStyles(theme);
-  const navigation = useNavigation<NavigationProp>(); // Inicialização correta
 
   const handleLogin = () => {
     // Simulação de autenticação
     console.log('Login action', { email, password });
-    
-    // Comando para navegar para a lista de pokémons
-    navigation.navigate('PokemonList');
   };
 
   return (

@@ -2,9 +2,6 @@ import React from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { createStyles } from './styles';
 import { useTheme } from '../../global/themes';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../routes/route';
-import { useNavigation } from '@react-navigation/native';
 
 type PokemonListItem = {
   id: number;
@@ -38,11 +35,9 @@ const MOCK_POKEMON_LIST: PokemonListItem[] = [
 export default function PokemonListScreen() {
   const theme = useTheme();
   const styles = createStyles(theme);
-  const navigation = useNavigation<NavigationProp>(); // Inicialização correta
-  type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'PokemonList'>;
-  
+
   const renderItem = ({ item }: { item: PokemonListItem }) => (
-    <TouchableOpacity style={styles.card} activeOpacity={0.8} onPress={() => navigation.navigate('PokemonDetail', {id: item.id})}>
+    <TouchableOpacity style={styles.card} activeOpacity={0.8}>
       <View style={styles.cardLeft}>
         <Text style={styles.cardName}>{item.name}</Text>
         <View style={styles.typeContainer}>
