@@ -6,9 +6,6 @@ import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../routes';
 
-
-
-
 const MOCK_POKEMON_DETAIL = {
   id: 25,
   name: 'pikachu',
@@ -83,4 +80,3 @@ export default function PokemonDetailScreen() {
     </ScrollView>
   );
 };
-
