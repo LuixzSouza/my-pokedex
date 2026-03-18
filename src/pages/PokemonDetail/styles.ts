@@ -95,5 +95,12 @@ export const createStyles = (theme: Theme) =>
       fontWeight: '600',
       color: theme.colors.text,
     },
+    headerBetween: {
+      width: '90%',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    }
   });
 
