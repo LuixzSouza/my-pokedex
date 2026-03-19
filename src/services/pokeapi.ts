@@ -70,3 +70,31 @@ export async function fetchPokemonDetail(
 
   return response.json();
 }
+
+export type PokemonSpeciesResponse = {
+  flavor_text_entries: {
+    flavor_text: string;
+    language: {
+      name: string;
+      url: string;
+    }
+    version: {
+      name: string;
+      url: string;
+    }
+  }
+}
+
+export async function fetchPokemonSpecies(
+  nameOrId: string | number,
+  options?: FetchOptions,
+) : Promise<PokemonSpeciesResponse> {
+  const url = `${BASE_URL}/pokemin-species/${nameOrId}`;
+  const response = await fetch(url, {signal: options?.signal})
+
+  if (!response.ok) {
+    throw new Error('Erro')
+  }
+
+  return response.json()
+}

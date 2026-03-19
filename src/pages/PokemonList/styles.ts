@@ -1,5 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import type { Theme } from '../../global/themes';
+
+const { width } = Dimensions.get('window');
+const CARD_WIDTH = (width - 60) / 2;
 
 export const createStyles = (theme: Theme) =>
   StyleSheet.create({
@@ -7,83 +10,75 @@ export const createStyles = (theme: Theme) =>
       flex: 1,
       backgroundColor: theme.colors.background,
     },
-    headerTitle: {
-      fontSize: 28,
-      fontWeight: 'bold',
-      color: theme.colors.text,
-    },
-    listContent: {
-      paddingHorizontal: 24,
-      paddingBottom: 24,
-      gap: 12,
-    },
-    card: {
+    headerContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      backgroundColor: theme.colors.surface,
-      borderRadius: 16,
-      padding: 16,
-      marginBottom: 12,
-      shadowColor: theme.colors.shadow,
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.1,
-      shadowRadius: 3,
-      elevation: 2,
+      paddingHorizontal: 24,
+      paddingTop: 60,
+      paddingBottom: 20,
     },
-    cardLeft: {
-      flex: 1,
-      marginRight: 12,
+    headerTitle: {
+      fontSize: 32,
+      fontWeight: '900',
+      color: theme.colors.text,
+    },
+    buttonLogout: {
+      width: 44,
+      height: 44,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: theme.colors.accent + '20',
+      borderRadius: 12,
+    },
+    listContent: {
+      paddingHorizontal: 20,
+      paddingBottom: 40,
+    },
+    columnWrapper: {
+      justifyContent: 'space-between',
+    },
+    card: {
+      width: CARD_WIDTH,
+      backgroundColor: theme.colors.surface || '#FFF',
+      borderRadius: 24,
+      padding: 16,
+      marginBottom: 16,
+      alignItems: 'center',
+      elevation: 4,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
     },
     cardName: {
-      fontSize: 18,
-      fontWeight: '700',
+      fontSize: 16,
+      fontWeight: 'bold',
       textTransform: 'capitalize',
-      marginBottom: 8,
       color: theme.colors.text,
+      marginTop: 12,
     },
     typeContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
-      gap: 6,
+      justifyContent: 'center',
+      gap: 4,
+      marginTop: 8,
     },
     typeBadge: {
-      backgroundColor: theme.colors.accent,
-      borderRadius: 999,
-      paddingHorizontal: 10,
-      paddingVertical: 4,
+      backgroundColor: theme.colors.accent + '30',
+      borderRadius: 8,
+      paddingHorizontal: 8,
+      paddingVertical: 2,
     },
     typeText: {
-      fontSize: 12,
-      textTransform: 'capitalize',
-      color: theme.colors.text,
+      fontSize: 10,
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      color: theme.colors.textSecondary,
     },
     cardImage: {
-      width: 72,
-      height: 72,
-    },
-    buttonSair: {
-      width: 50,
-      height: 50,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'red',
-      borderRadius: 40,
-      borderWidth: 1,
-      borderColor: theme.colors.primaryDark,
-    },
-    buttonSairText: {
-      color: theme.colors.text,
-      fontWeight: 'bold',
-    },
-    flex: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      paddingHorizontal: 24,
-      paddingTop: 60,
-      paddingBottom: 32,
+      width: 80,
+      height: 80,
     },
   });
-
