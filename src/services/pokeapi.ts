@@ -77,24 +77,25 @@ export type PokemonSpeciesResponse = {
     language: {
       name: string;
       url: string;
-    }
+    };
     version: {
       name: string;
       url: string;
-    }
-  }
-}
+    };
+  }[];
+};
 
 export async function fetchPokemonSpecies(
   nameOrId: string | number,
   options?: FetchOptions,
-) : Promise<PokemonSpeciesResponse> {
-  const url = `${BASE_URL}/pokemin-species/${nameOrId}`;
-  const response = await fetch(url, {signal: options?.signal})
+): Promise<PokemonSpeciesResponse> {
+  // CORREÇÃO: "pokemin-species" corrigido para "pokemon-species"
+  const url = `${BASE_URL}/pokemon-species/${nameOrId}`;
+  const response = await fetch(url, { signal: options?.signal });
 
   if (!response.ok) {
-    throw new Error('Erro')
+    throw new Error('Erro ao buscar a espécie do Pokémon');
   }
 
-  return response.json()
+  return response.json();
 }
