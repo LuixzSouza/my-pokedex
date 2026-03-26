@@ -2,6 +2,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 import type { Theme } from '../../global/themes';
 
 const { width } = Dimensions.get('window');
+// Calcula a largura do card considerando os paddings da tela e o gap entre as colunas
 const CARD_WIDTH = (width - 60) / 2;
 
 export const createStyles = (theme: Theme) =>
@@ -9,6 +10,11 @@ export const createStyles = (theme: Theme) =>
     container: {
       flex: 1,
       backgroundColor: theme.colors.background,
+    },
+    centerContent: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     headerContainer: {
       flexDirection: 'row',
@@ -80,5 +86,19 @@ export const createStyles = (theme: Theme) =>
     cardImage: {
       width: 80,
       height: 80,
+    },
+    footerContainer: {
+      padding: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    errorText: {
+      color: 'red',
+      fontSize: 16,
+      textAlign: 'center',
+    },
+    retryButton: {
+      marginTop: 10,
+      padding: 10,
     },
   });

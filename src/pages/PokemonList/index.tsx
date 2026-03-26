@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -38,13 +38,13 @@ export default function PokemonListScreen() {
   const fetchDetailedPage = async (currentOffset: number, signal?: AbortSignal) => {
     const listResponse = await fetchPokemonList(PAGE_SIZE, currentOffset, { signal });
     
-    const detailedPromises = listResponse.results.map(async (p) => {
+    const detailedPromises = listResponse.results.map(async (p: any) => {
       const detail = await fetchPokemonDetail(p.name, { signal });
       return {
         id: detail.id,
         name: detail.name,
         imageUrl: detail.sprites.front_default || '', 
-        types: detail.types.map(t => t.type.name)
+        types: detail.types.map((t: any) => t.type.name)
       };
     });
 
@@ -55,18 +55,25 @@ export default function PokemonListScreen() {
     };
   };
 
-  const loadInitial = async () => {
+  const loadInitial = async (signal?: AbortSignal) => {
     try {
       setError(null);
       setIsInitialLoading(true);
-      const { data, hasNext } = await fetchDetailedPage(0);
+      const { data, hasNext } = await fetchDetailedPage(0, signal);
+      
+      if (signal?.aborted) return; // Evita atualizar estado se o componente desmontou
+      
       setPokemonListData(data);
       setOffset(PAGE_SIZE);
       setHasNextPage(hasNext);
-    } catch (e) {
-      setError('Falha ao carregar a lista de Pokémon.');
+    } catch (e: any) {
+      if (e.name !== 'AbortError') {
+        setError('Falha ao carregar a lista de Pokémon.');
+      }
     } finally {
-      setIsInitialLoading(false);
+      if (!signal?.aborted) {
+        setIsInitialLoading(false);
+      }
     }
   };
 
@@ -79,7 +86,6 @@ export default function PokemonListScreen() {
       setOffset((prev) => prev + PAGE_SIZE);
       setHasNextPage(hasNext);
     } catch (e) {
-      // Falha silenciosa ou log para não travar a lista
       console.log('Falha ao carregar mais Pokémon.', e);
     } finally {
       setIsLoadingMore(false);
@@ -102,16 +108,22 @@ export default function PokemonListScreen() {
   };
 
   useEffect(() => {
-    loadInitial();
-    // Você pode colocar lógica de abort controller aqui se necessário para cleanup
+    const abortController = new AbortController();
+    
+    loadInitial(abortController.signal);
+    
+    // Cleanup function: cancela a requisição se o componente for desmontado
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   const handleLogout = () => {
-    // Atenção: Garanta que "Login" exista no seu RootStackParamList
     navigation.reset({ index: 0, routes: [{ name: "Login" } as any] });
   };
 
-  const renderItem = ({ item }: { item: PokemonListItem }) => (
+  // Memoizado para evitar re-renderizações desnecessárias na FlatList
+  const renderItem = useCallback(({ item }: { item: PokemonListItem }) => (
     <TouchableOpacity 
       style={styles.card} 
       activeOpacity={0.8} 
@@ -127,20 +139,24 @@ export default function PokemonListScreen() {
         ))}
       </View>
     </TouchableOpacity>
-  );
+  ), [navigation, styles]);
 
-  const renderFooter = () => {
+  // Memoizado para manter referência estável
+  const renderFooter = useCallback(() => {
     if (!isLoadingMore) return null;
     return (
-      <View style={{ padding: 20 }}>
+      <View style={styles.footerContainer}>
         <ActivityIndicator size="small" color={theme.colors.primary} />
       </View>
     );
-  };
+  }, [isLoadingMore, theme.colors.primary, styles.footerContainer]);
+
+  // Memoizado para manter referência estável
+  const keyExtractor = useCallback((item: PokemonListItem) => String(item.id), []);
 
   if (isInitialLoading) {
     return (
-      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+      <View style={[styles.container, styles.centerContent]}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
@@ -156,28 +172,29 @@ export default function PokemonListScreen() {
       </View>
 
       {error ? (
-         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: 'red' }}>{error}</Text>
-            <TouchableOpacity onPress={loadInitial} style={{ marginTop: 10 }}>
+         <View style={styles.centerContent}>
+            <Text style={styles.errorText}>{error}</Text>
+            <TouchableOpacity onPress={() => loadInitial()} style={styles.retryButton}>
                <Text style={{ color: theme.colors.primary }}>Tentar Novamente</Text>
             </TouchableOpacity>
          </View>
       ) : (
         <FlatList
           data={pokemonListData}
-          keyExtractor={(item) => String(item.id)}
+          keyExtractor={keyExtractor}
           renderItem={renderItem}
           numColumns={2}
           columnWrapperStyle={styles.columnWrapper}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
-          // Propriedades para Infinite Scroll:
           onEndReached={loadMore}
-          onEndReachedThreshold={0.5} // Aciona a busca quando chegar na metade do final
+          onEndReachedThreshold={0.5}
           ListFooterComponent={renderFooter}
-          // Propriedades para Refreshing (puxar para baixo):
           refreshing={isRefreshing}
           onRefresh={refreshList}
+          // Propriedade extra para otimização de listas grandes
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
         />
       )}
     </View>
