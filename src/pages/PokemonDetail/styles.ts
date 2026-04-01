@@ -11,61 +11,39 @@ export const createStyles = (theme: Theme) =>
     },
     content: {
       paddingBottom: 40,
-    },
-    // Cabeçalho superior com botão voltar e ID
-    headerBetween: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 20,
-      paddingTop: 50,
-      paddingBottom: 10,
-      zIndex: 10,
-    },
-    backButton: {
       paddingHorizontal: 16,
-      paddingVertical: 8,
-      borderRadius: 20,
-      backgroundColor: theme.colors.accent + '40', // Transparência de 40%
-      borderWidth: 1,
-      borderColor: theme.colors.accent,
     },
-    backButtonText: {
-      color: theme.colors.text,
-      fontWeight: 'bold',
-      fontSize: 14,
-    },
-    headerId: {
-      fontSize: 18,
-      fontWeight: '800',
-      color: theme.colors.textSecondary,
-      opacity: 0.6,
-    },
-    // Área de destaque do Pokémon
-    pokemonHero: {
+    // Cabeçalho e informações do Pokémon
+    header: {
       alignItems: 'center',
       paddingVertical: 20,
-      position: 'relative',
     },
-    image: {
-      width: 200,
-      height: 200,
-      zIndex: 2,
+    nameRow: {
+      flexDirection: 'row',
+      alignItems: 'baseline',
+      justifyContent: 'center',
+      gap: 8,
     },
     name: {
       fontSize: 36,
       fontWeight: '900',
       textTransform: 'capitalize',
       color: theme.colors.text,
-      marginTop: -10,
+    },
+    id: {
+      fontSize: 18,
+      fontWeight: '800',
+      color: theme.colors.textSecondary,
+      opacity: 0.6,
     },
     typeContainer: {
       flexDirection: 'row',
       gap: 10,
       marginTop: 12,
+      marginBottom: 16,
+      justifyContent: 'center',
     },
     typeBadge: {
-      backgroundColor: theme.colors.primary,
       borderRadius: 12,
       paddingHorizontal: 20,
       paddingVertical: 6,
@@ -82,91 +60,74 @@ export const createStyles = (theme: Theme) =>
       color: '#FFF',
       letterSpacing: 1,
     },
-    // Card branco/principal que contém os dados
-    infoCard: {
-      backgroundColor: theme.colors.background, // ou uma cor de superfície levemente diferente
-      marginTop: 20,
-      marginHorizontal: 16,
-      borderRadius: 32,
-      padding: 24,
-      // Efeito de elevação suave
+    image: {
+      width: 200,
+      height: 200,
+      zIndex: 2,
+      marginVertical: 10,
+    },
+    // Seções de conteúdo (Sobre, Informações, Stats)
+    section: {
+      backgroundColor: theme.colors.background,
+      marginBottom: 20,
+      borderRadius: 24,
+      padding: 20,
+      // Efeito de card
       elevation: 4,
       shadowColor: '#000',
-      shadowOffset: { width: 0, height: -4 },
+      shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.05,
-      shadowRadius: 10,
-    },
-    section: {
-      marginBottom: 28,
+      shadowRadius: 8,
     },
     sectionTitle: {
       fontSize: 18,
       fontWeight: '800',
-      marginBottom: 16,
+      marginBottom: 12,
       color: theme.colors.text,
       letterSpacing: 0.5,
     },
-    // Grid de Altura e Peso
-    infoGrid: {
+    sectionText: {
+      fontSize: 15,
+      color: theme.colors.textSecondary,
+      lineHeight: 22,
+    },
+    // Linhas de Informação (Altura e Peso)
+    infoRow: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      backgroundColor: theme.colors.accent + '15',
-      borderRadius: 20,
-      padding: 20,
-    },
-    infoBox: {
       alignItems: 'center',
-      flex: 1,
+      paddingVertical: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.textSecondary + '20',
     },
     infoLabel: {
-      fontSize: 12,
+      fontSize: 14,
       color: theme.colors.textSecondary,
       textTransform: 'uppercase',
-      marginBottom: 4,
       fontWeight: '600',
     },
     infoValue: {
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: 'bold',
       color: theme.colors.text,
     },
-    infoDivider: {
-      width: 1,
-      height: '100%',
-      backgroundColor: theme.colors.textSecondary,
-      opacity: 0.2,
-    },
-    // Estilização dos Stats (Barras de progresso visual)
+    // Estilização dos Stats
     statRow: {
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'space-between',
       marginBottom: 12,
     },
     statName: {
-      width: 60,
+      width: 80,
       fontSize: 12,
       fontWeight: '700',
       color: theme.colors.textSecondary,
     },
     statValue: {
-      width: 35,
       fontSize: 14,
       fontWeight: 'bold',
       color: theme.colors.text,
       textAlign: 'right',
-      marginRight: 10,
-    },
-    // Container da barra de progresso
-    statBarBg: {
-      flex: 1,
-      height: 8,
-      backgroundColor: theme.colors.accent + '30',
-      borderRadius: 4,
-      overflow: 'hidden',
-    },
-    statBarFill: {
-      height: '100%',
-      backgroundColor: theme.colors.primary,
-      borderRadius: 4,
     },
   });

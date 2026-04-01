@@ -1,8 +1,10 @@
 const BASE_URL = 'https://pokeapi.co/api/v2';
 
-type FetchOptions = {
+export type FetchOptions = {
   signal?: AbortSignal;
 };
+
+// --- Tipagens e Funções Originais ---
 
 export type PokemonListResponse = {
   count: number;
@@ -89,7 +91,6 @@ export async function fetchPokemonSpecies(
   nameOrId: string | number,
   options?: FetchOptions,
 ): Promise<PokemonSpeciesResponse> {
-  // CORREÇÃO: "pokemin-species" corrigido para "pokemon-species"
   const url = `${BASE_URL}/pokemon-species/${nameOrId}`;
   const response = await fetch(url, { signal: options?.signal });
 
@@ -98,4 +99,51 @@ export async function fetchPokemonSpecies(
   }
 
   return response.json();
+}
+
+// --- Funções Adicionadas para a Tela de Lista ---
+
+export type PokemonListItemUI = {
+  id: number;
+  name: string;
+  imageUrl: string;
+  types: string[];
+};
+
+export type PokemonListPageResponse = {
+  items: PokemonListItemUI[];
+  next: string | null;
+};
+
+export async function fetchPokemonListPage(
+  limit = 10,
+  offset = 0,
+  options?: FetchOptions,
+): Promise<PokemonListPageResponse> {
+  // 1. Busca a lista básica com os limites e offsets (apenas nome e url)
+  const listResponse = await fetchPokemonList(limit, offset, options);
+
+  // 2. Para cada item da lista, busca os detalhes individuais para pegar ID, foto e tipos
+  const itemsPromises = listResponse.results.map(async (basicPokemon) => {
+    const detail = await fetchPokemonDetail(basicPokemon.name, options);
+    
+    return {
+      id: detail.id,
+      name: detail.name,
+      // Fallback de imagem caso o front_default venha nulo
+      imageUrl: 
+        detail.sprites.front_default ?? 
+        `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${detail.id}.png`,
+      // Mapeia o array de objetos de tipo para um array simples de strings (ex: ['grass', 'poison'])
+      types: detail.types.map((t) => t.type.name),
+    } as PokemonListItemUI;
+  });
+
+  // Aguarda todas as requisições de detalhes finalizarem
+  const items = await Promise.all(itemsPromises);
+
+  return {
+    items,
+    next: listResponse.next,
+  };
 }

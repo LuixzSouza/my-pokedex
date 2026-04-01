@@ -1,104 +1,104 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import type { Theme } from '../../global/themes';
 
-const { width } = Dimensions.get('window');
-// Calcula a largura do card considerando os paddings da tela e o gap entre as colunas
-const CARD_WIDTH = (width - 60) / 2;
 
 export const createStyles = (theme: Theme) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.colors.background,
-    },
-    centerContent: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    headerContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 24,
-      paddingTop: 60,
-      paddingBottom: 20,
-    },
-    headerTitle: {
-      fontSize: 32,
-      fontWeight: '900',
-      color: theme.colors.text,
-    },
-    buttonLogout: {
-      width: 44,
-      height: 44,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: theme.colors.accent + '20',
-      borderRadius: 12,
-    },
-    listContent: {
-      paddingHorizontal: 20,
-      paddingBottom: 40,
-    },
-    columnWrapper: {
-      justifyContent: 'space-between',
-    },
-    card: {
-      width: CARD_WIDTH,
-      backgroundColor: theme.colors.surface || '#FFF',
-      borderRadius: 24,
-      padding: 16,
-      marginBottom: 16,
-      alignItems: 'center',
-      elevation: 4,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 8,
-    },
-    cardName: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      textTransform: 'capitalize',
-      color: theme.colors.text,
-      marginTop: 12,
-    },
-    typeContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      gap: 4,
-      marginTop: 8,
-    },
-    typeBadge: {
-      backgroundColor: theme.colors.accent + '30',
-      borderRadius: 8,
-      paddingHorizontal: 8,
-      paddingVertical: 2,
-    },
-    typeText: {
-      fontSize: 10,
-      fontWeight: 'bold',
-      textTransform: 'uppercase',
-      color: theme.colors.textSecondary,
-    },
-    cardImage: {
-      width: 80,
-      height: 80,
-    },
-    footerContainer: {
-      padding: 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    errorText: {
-      color: 'red',
-      fontSize: 16,
-      textAlign: 'center',
-    },
-    retryButton: {
-      marginTop: 10,
-      padding: 10,
-    },
-  });
+ StyleSheet.create({
+   container: {
+     flex: 1,
+     backgroundColor: theme.colors.background,
+   },
+   headerTitle: {
+     fontSize: 28,
+     fontWeight: 'bold',
+     paddingHorizontal: 24,
+     paddingTop: 60,
+     paddingBottom: 16,
+     color: theme.colors.text,
+   },
+   listContent: {
+     paddingHorizontal: 24,
+     paddingBottom: 24,
+     gap: 12,
+   },
+   card: {
+     flexDirection: 'row',
+     alignItems: 'center',
+     justifyContent: 'space-between',
+     backgroundColor: theme.colors.surface,
+     borderRadius: 16,
+     padding: 16,
+     marginBottom: 12,
+     shadowColor: theme.colors.shadow,
+     shadowOffset: { width: 0, height: 1 },
+     shadowOpacity: 0.1,
+     shadowRadius: 3,
+     elevation: 2,
+   },
+   cardLeft: {
+     flex: 1,
+     marginRight: 12,
+   },
+   cardName: {
+     fontSize: 18,
+     fontWeight: '700',
+     textTransform: 'capitalize',
+     marginBottom: 8,
+     color: theme.colors.text,
+   },
+   typeContainer: {
+     flexDirection: 'row',
+     flexWrap: 'wrap',
+     gap: 6,
+   },
+   typeBadge: {
+     backgroundColor: theme.colors.accent,
+     borderRadius: 999,
+     paddingHorizontal: 10,
+     paddingVertical: 4,
+   },
+   typeText: {
+     fontSize: 12,
+     fontWeight: '700',
+     textTransform: 'capitalize',
+     color: '#fff',
+   },
+   cardImage: {
+     width: 72,
+     height: 72,
+   },
+   buttonLogout: {
+     position: 'absolute',
+     top: 60,
+     right: 24,
+     backgroundColor: theme.colors.accent,
+     paddingHorizontal: 12,
+     paddingVertical: 6,
+     borderRadius: 8,
+   },
+   buttonLogoutText: {
+     color: theme.colors.text,
+     fontSize: 14,
+   },
+ actionsRow: {
+     flexDirection: 'row',
+     gap: 10,
+     paddingHorizontal: 24,
+     marginBottom: 12,
+   },
+   actionButton: {
+     flex: 1,
+     height: 42,
+     borderRadius: 10,
+     alignItems: 'center',
+     justifyContent: 'center',
+   },
+   favoritesButton: {
+     backgroundColor: '#2563eb', // azul
+   },
+   actionButtonText: {
+     color: '#fff',
+     fontWeight: '700',
+     fontSize: 13,
+   },
+ });
