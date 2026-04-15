@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, ActivityIndicator, TouchableOpacity, Share } from 'react-native';
 import { createStyles } from './styles';
 import { useTheme } from '../../global/themes';
 import { useRoute } from '@react-navigation/native';
@@ -90,6 +90,30 @@ export default function PokemonDetailScreen() {
    };
    const updated = await toggleFavorite(summary);
    setFavorite(updated.some((item) => item.id === pokemon.id));
+ }
+
+ async function handleSharePokemon() {
+  if (!pokemon) return;
+  const pokeApiUrl = `https://www.pokemon.com/br/pokedex/${pokemon.id}/`;
+  const message = `Olha esse Pokémon na Pokédex: ${pokemon.name} (#${String(pokemon.id).padStart(3, '0')})\n${pokeApiUrl}`;
+
+  try {
+    const result = await Share.share(
+      {
+        message,
+        title: `Pokémon: ${pokemon.name}`,
+      },
+      { subject: `Pokémon: ${pokemon.name}` },
+    );
+
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+      }
+    } else if (result.action === Share.dismissedAction) {
+    }
+  } catch (error) {
+    console.warn('Erro ao compartilhar:', error);
+  }
  }
 
 
@@ -222,6 +246,33 @@ export default function PokemonDetailScreen() {
          {favorite ? '★ Favorito' : '☆ Favoritar'}
        </Text>
      </TouchableOpacity>
+
+       <TouchableOpacity
+        onPress={handleSharePokemon}
+        style={{
+          backgroundColor: '#2563eb',
+          paddingHorizontal: 16,
+          paddingVertical: 10,
+          borderRadius: 999,
+          alignSelf: 'flex-start',
+          marginBottom: 16,
+        }}
+      >
+        <Text style={{ fontWeight: '700', color: '#fff' }}>Compartilhar</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+         //onPress={() => navigation.goBack()}
+         style={{
+           paddingHorizontal: 16,
+           paddingVertical: 10,
+           borderRadius: 24,
+           backgroundColor: theme.colors.accent,
+           alignSelf: 'flex-start',
+         }}
+       >
+         <Text style={{ color: theme.colors.text, fontWeight: 'bold' }}>Voltar</Text>
+       </TouchableOpacity>
 
 
      <View style={styles.section}>
