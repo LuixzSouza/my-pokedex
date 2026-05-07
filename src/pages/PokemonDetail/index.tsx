@@ -11,6 +11,7 @@ import { isFavorite, toggleFavorite } from '../../services/favoritesStorage';
 import { addLastViewed } from '../../services/lastViewedStorage';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getCapturedPhotoUri } from '../../services/photoCache';
+import { notifyPokemonFavorited } from '../../services/localNotifications';
 
 const TYPE_COLORS: Record<string, string> = {
   normal: '#A8A77A', fire: '#EE8130', water: '#6390F0', electric: '#F7D02C', grass: '#7AC74C',
@@ -70,7 +71,12 @@ export default function PokemonDetailScreen() {
       types: pokemon.types.map((t) => t.type.name),
     };
     const updated = await toggleFavorite(summary);
+    const isNowFavorite = updated.some((item) => item.id == pokemon.id)
     setFavorite(updated.some((item) => item.id === pokemon.id));
+
+    if (isNowFavorite) {
+      await notifyPokemonFavorited(pokemon.name)
+    }
   }
 
   async function handleSharePokemon() {
